@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+	<title>The Library</title>
+    <link rel="stylesheet" type="text/css" href="librarian.css">
+	<script src="library.js"></script> <!--The main game script-->
+	<script src="locations.js"></script><!--All the places in the game-->
+	<script src="people.js"></script> <!--All the people in the game-->
+</head>
+<body>
+<div id="game_box">
+	<p>
+		<h2 id="hud">Current Location: </h2> <!--This will be used to display status information-->
+		<hr/>
+		<h4 id = "output">Hello, Librarian. Welcome to the Library. As the current Artificial "Intelligence" unit, I will be your guide as you start an exciting new career! Notice how intilligence is in quotes. Please keep that in mind. Why don't you look around? If you get stuck, just say help.</h4>
+	</p>
+</div>
+<input id="input" type="text" onkeypress="keyHandler(event)"  placeholder="Talk to me.">
+
+</body>
+
+<script>
+    <!--
+	var input = document.getElementById("input");
+	var output = document.getElementById("output");
+	var hud = document.getElementById("hud");
+	hud.innerHTML += player.location.name;
+	function keyHandler(e){//No more clumsy button. The user just presses enter. 
+		if (e.key == "Enter"){
+			put_input();
+		}
+	}
+	function put_input(){
+		output.innerHTML = process_input(input.value);	//pass the input value to the library for processing.
+		input.value = "";
+        if(gameMode == EXPLORING){
+		    player.clear(); //Make sure the action and toWhom values are null for every 'frame'.
+        }
+        hud.innerHTML = "Current Location: " + player.location.name; //Now we have a hud that let's the player keep track of her location! We can also put other info here as well!
+	}
+    //-->
+</script>
+
+</html>

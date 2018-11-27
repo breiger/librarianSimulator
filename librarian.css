@@ -1,0 +1,36 @@
+body{
+	   background-color: blue;
+	   text-align: center;
+}
+
+h2{
+		color:white;
+		text-align: center;
+}
+		
+h4{
+	   color: white;
+	   text-align: left;
+}
+
+input{
+		margin: 10px;
+		padding: 5px;
+		border: 2px solid black;
+}
+		
+#game_box{
+	   display:block;
+	   margin-left:auto;
+	   margin-right:auto;
+	   width:75vh;
+	   height:50vh;
+	   padding: 10px;
+	   border:2px solid Violet;
+	   background-color: black;
+}
+
+#dialogue{
+        text-align:center;
+        color:yellow;
+{
