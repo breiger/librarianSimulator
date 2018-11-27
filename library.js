@@ -2,7 +2,7 @@
 //This you can call this the main loop or the game engine. 
 
 //It needs an actions list. This might be dynamically updated based on what is visible. 
-var actions = ["talk", "walk", "look", "help", "inv];
+var actions = ["talk", "walk", "look", "help", "inv"];
 
 //All of the game objects.
 var gameWorld = [];
@@ -14,7 +14,8 @@ var gameMode = EXPLORING;
 //Returned when the library is 'confused'
 var confusedResponses = ["My budget speech recognition software says, what?", "Due to budget cuts, I don't understand your high-fallutin' natural language.", "This is the the computer equivalent of smiling and nodding. But if I had eyes, you would see they are filled with the the panic of not understanding.", "My software = cheap = I don't know from no whatever you just said.", "Garbage in. Garbage out. I'm confused, but please don't pout.", "Does not compute.", "CTRL-ALT-What did you say?"]
 
-//The main game function. Simply searches through every word of the input 
+//The main game function. Simply searches through every word of the input
+//Then it sets the player intention variables for further processing. 
 function process_input(input){
 	lowerInput = input.toLowerCase(); //lower case is easier to process!
 	splitInput = lowerInput.split(" "); //And if we make it an array, we can loop!
@@ -65,6 +66,9 @@ function update(inputLength){
     else if(player.action == "talk"){
         return startTalking(inputLength);
     }
+	else if(player.action == "inv"){
+		return inventory()
+	}
 	
 	else{
 		return "you want to " + player.action;
@@ -78,6 +82,7 @@ function look(inputLength){
 	var outputMessage = "";
 	if(player.toWhom != null){
 		if(player.toWhom.contains.length > 0){
+			//Will add the name of any person or item within the location. 
 			outputMessage = "<br><br>You can also see: "
 			for(var i = 0; i<player.toWhom.contains.length; i++){
 				outputMessage += "<br>" + player.toWhom.contains[i].name; 
@@ -86,6 +91,7 @@ function look(inputLength){
 		return player.toWhom.description + outputMessage; 
 	}
 	else if(inputLength < 2){
+		//The player just put look. 
 		if(player.location.contains.length > 0){
 			outputMessage = "<br><br>You can also see: "
 			for(var i = 0; i < player.location.contains.length; i++){
@@ -159,6 +165,15 @@ function buildDialogue(){
 			gameMode = EXPLORING;
 		}
         return "<p id='dialogue'>" + player.toWhom.name + ": " + player.toWhom.currentDialogue.prompt + "</p>" + outMessage;
+}
+
+function inventory(){
+	//Displays the player's current inventory. 
+	var outMessage = "You are carrying:<br>";
+	for (var i = 0; i < player.contains.length; i++){
+		outMessage += "<br>" + player.contains[i].name; 
+	}
+	return outMessage; 
 }
 
 function help(){
