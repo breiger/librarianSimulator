@@ -141,18 +141,18 @@ function startTalking(inputLength){ //Simplifying the code a bit. This starts a 
 }
 
 function talk(input){ //and this continues a dialogue;
-	//Processes all input in talking mode.  
+	//Processes all input in talking mode.
 	for (var i=0; i<player.toWhom.currentDialogue.responses.length; i++){ //for every available response
+		console.log("We are on responses:" + i);
 		for(var j=0; j<input.length; j++){ //for every member of the input
 			if(input[j] == i.toString()){ //if the input is a number that matches one of the responses
 				player.toWhom.currentDialogue = player.toWhom.currentDialogue.responses[i][1]; //set the current dialogue of the person we are talking to to match the linked object in the list of available responses
 				return buildDialogue();
 			}
-            else{
-                return "Please enter a number. Budget cuts, you know.<br>" + buildDialogue();    
-            }
 		}
 	}
+	//If we can't find a dialogue
+	return "Please enter a number. Budget cuts, you know.<br>" + buildDialogue();    
 }
 
 function buildDialogue(){
