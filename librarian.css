@@ -24,7 +24,18 @@ input{
 	   margin-left:auto;
 	   margin-right:auto;
 	   width:75vh;
-	   height:50vh;
+	   height:35vh;
+	   padding: 10px;
+	   border:2px solid Violet;
+	   background-color: black;
+}
+
+#status_box{
+	   display:block;
+	   margin-left:auto;
+	   margin-right:auto;
+	   width:75vh;
+	   height:20vh;
 	   padding: 10px;
 	   border:2px solid Violet;
 	   background-color: black;
@@ -33,4 +44,9 @@ input{
 #dialogue{
         text-align:center;
         color:yellow;
-{
+}
+
+th, td {
+		color:white;
+		border: 2px solid white; 
+}

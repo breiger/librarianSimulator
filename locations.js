@@ -7,8 +7,9 @@ function place(name, description){
 	this.locked = true; 
 	this.contains = new Array();
 	this.actions = new Array();
-	this.actions[0] = "look";
-	this.update; //Future function. I think. Not sure how it will all work yet. 
+	this.actions.push("look");
+	this.actions.push("walk");
+	this.update = function(){console.log(this.name + " is updating");} 
 }
 
 //The atrium or entrance to the game. 
