@@ -14,11 +14,11 @@ function person(name, description, location){
     this.action = null; //what is the persons current action?
 	this.toWhom = null; //what is the object of that action?
 	this.actions = new Array();
-    this.actions[0] = "talk";
-    this.actions[1] = "trade";
+    this.actions.push("talk");
+    this.actions.push("trade");
     this.currentDialogue = null; 
     
-	this.update; //Every person has a different update function.
+	this.update = function(){console.log(this.name + " is updating");}
 	
 	this.clear = function(){this.action = null; this.toWhom = null;};//Want to make sure that it is clear for every 'frame'.
     
@@ -37,15 +37,34 @@ function person(name, description, location){
 
 //The player
 var player = new person("player", "It's you, I think.", atrium);
+player.name = "player";
 player.visible = true;
 player.canTrade = true;
 //my vision is that update on every visible object will be called 
 //every time the library processes input. 
-player.update = function(){
-	return "you are doing this action: " + this.action + " " + this.toWhom
+player.update = function(inputLength){
+ 
+	if(player.action == "look"){
+		return look(inputLength); 
+	}
+	else if(player.action == "help"){
+		return help(inputLength); 
+	}
+	else if(player.action == "walk"){
+		return walk(inputLength); 
+	}
+    else if(player.action == "talk"){
+        return startTalking(inputLength);
+    }
+	else if(player.action == "inv"){
+		return inventory()
+	}
+	else{
+		return "you want to " + player.action;
+	}
 }
-atrium.contains.push(player);
-gameWorld.push(player);
+//atrium.contains.push(player); //Might change this later. 
+//gameWorld.push(player); //Might change this later. 
 
 //Mary
 var mary = new person("Mary the Barista", "Mary tells me that one day she will have a coffee shop of her own, but she's been here about ten years. You know the definition of insanity right, doing the same thing over and over and expecting different results? They put a picture of Mary next to that definition.", coffeeBar); 
@@ -59,6 +78,16 @@ mary.greeting.addResponse("No. No I am not.", mary.beCrazy = new mary.dialogue("
 mary.currentDialogue = mary.greeting; 
 
 mary.sellCoffee.addResponse("I only have a twenty.", mary.chagrin = new mary.dialogue("Sigh.")); 
+
+mary.update = function(){
+	if (mary.currentDialogue == mary.chagrin){
+		mary.contains.splice(mary.contains.indexOf(coffee), 1);
+		if(player.contains.includes(coffee) == false){
+			player.contains.push(coffee); 
+			statusMessage += "You got some coffee!";
+		}
+	}
+}
 
 coffeeBar.contains.push(mary);
 gameWorld.push(mary);

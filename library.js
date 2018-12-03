@@ -1,8 +1,9 @@
 //Library.js
 //This you can call this the main loop or the game engine. 
 
-//It needs an actions list. This might be dynamically updated based on what is visible. 
-var actions = ["talk", "walk", "look", "help", "inv"];
+//It needs an actions list. This might be dynamically updated based on what is visible.
+//Now I need to decide if I want to make this an object...
+var actions = new Array();
 
 //All of the game objects.
 var gameWorld = [];
@@ -17,6 +18,7 @@ var confusedResponses = ["My budget speech recognition software says, what?", "D
 //The main game function. Simply searches through every word of the input
 //Then it sets the player intention variables for further processing. 
 function process_input(input){
+    buildActions();
 	lowerInput = input.toLowerCase(); //lower case is easier to process!
 	splitInput = lowerInput.split(" "); //And if we make it an array, we can loop!
     
@@ -32,7 +34,7 @@ function process_input(input){
 	//If another of the words mataches a name of a game object.
 	toWhom = loopSearch("name", splitInput, gameWorld);
 	
-	//Change change the player's intended action and who or what she wants to do that too. 
+	//Change the player's intended action and who or what she wants to do that too. 
 	if(action != null){
 		player.action = action;
 		if(toWhom != null){
@@ -49,30 +51,7 @@ function process_input(input){
 
 //most of the game logic.
 function update(inputLength){
-    //This is the function that sort of parses the intentions of the player
-    //and calls the appropriate action function. 
-    //It takes one variable that tells the library the length of the input. 
-    //Input's shorter than two words usually get a help message like,
-    //"Where do you want to walk?"
-	if(player.action == "look"){
-		return look(inputLength); 
-	}
-	else if(player.action == "help"){
-		return help(inputLength); 
-	}
-	else if(player.action == "walk"){
-		return walk(inputLength); 
-	}
-    else if(player.action == "talk"){
-        return startTalking(inputLength);
-    }
-	else if(player.action == "inv"){
-		return inventory()
-	}
-	
-	else{
-		return "you want to " + player.action;
-	}
+	return player.update(inputLength);
 }
 
 function look(inputLength){
@@ -176,12 +155,31 @@ function inventory(){
 	return outMessage; 
 }
 
-function help(){
-	var helpMessage = "Imagine that you have stepped into a library. The air is full of dust that filters and reflects the light, making the air seem to glimmer. But it also makes you cough. This is where you work now. So get to it. Type commands to interact with the library. Two or three word commands work best. Try typing 'look'.<br><br>Available Commands: "; 
+function help(){ //Make a help screen with available commands. 
+	var helpMessage = "Imagine that you have stepped into a library. The air is full of dust that filters and reflects the light, making the air seem to glimmer. But it also makes you cough. This is where you work now. So get to it. Type commands to interact with the library. Two or three word commands work best. Try typing 'look'. <br><br>";
+	var helpTable = "<table style='width:100%'><tr><th>Available Verbs</th><th>Available Nouns</th></tr><tr><td>";
 	for(var i = 0; i < actions.length; i++){
-		helpMessage += "<br>" + actions[i];
+		helpTable += "<br>" + actions[i];
 	}
-	return helpMessage;
+	helpTable += "</td><td>";
+	for(var i = 0; i < gameWorld.length; i++){
+		helpTable += "<br>" + gameWorld[i].name;
+	}
+	helpTable += "</td></tr></table>";
+	return helpMessage + helpTable;
+}
+
+function buildActions(){//build the actions array dynamically for every call to process input. 
+    actions = ["help", "inv"]; //Clear the old actions array.
+    for(var i = 0; i < gameWorld.length; i++){ //For every visible object in the game world.
+        if (gameWorld[i].visible == true){
+            for(var j = 0; j < gameWorld[i].actions.length; j++){//add its actions to the global actions array. 
+                if(actions.includes(gameWorld[i].actions[j]) == false){//make sure there are no duplicates. 
+					actions.push(gameWorld[i].actions[j]);	
+				}
+            }
+        }
+    }
 }
 
 function loopSearch(type, array1, array2){

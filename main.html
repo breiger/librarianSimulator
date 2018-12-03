@@ -12,33 +12,51 @@
 <body>
 <div id="game_box">
 	<p>
-		<h2 id="hud">Current Location: </h2> <!--This will be used to display status information-->
-		<hr/>
 		<h4 id = "output">Hello, Librarian. Welcome to the Library. As the current Artificial "Intelligence" unit, I will be your guide as you start an exciting new career! Notice how intilligence is in quotes. Please keep that in mind. Why don't you look around? If you get stuck, just say help.</h4>
 	</p>
 </div>
+<div id = "status_box">
+	<table style='width:100%'>
+		<tr>
+			<th>Location</th>
+			<th>Cash</th>
+			<th>Messages</th>
+			<th>Inventory</th>
+		</tr>
+		<tr>
+			<td id='cash'></td>
+			<td id='location'></td>
+			<td id='message'></td>
+			<td id='inventory'></td>
+		</tr>
+	</table>
+</div>
 <input id="input" type="text" onkeypress="keyHandler(event)"  placeholder="Talk to me.">
-
 </body>
 
 <script>
     <!--
 	var input = document.getElementById("input");
 	var output = document.getElementById("output");
-	var hud = document.getElementById("hud");
-	hud.innerHTML += player.location.name;
+	var hudLocation = document.getElementById("location");
+	var hudMessage = document.getElementById("message");
+	var hudInventory = document.getElementById()
 	function keyHandler(e){//No more clumsy button. The user just presses enter. 
 		if (e.key == "Enter"){
 			put_input();
 		}
 	}
 	function put_input(){
+		statusMessage = "<p style='color:blue'><br><br>"; //Clear the status message every frame. 
 		output.innerHTML = process_input(input.value);	//pass the input value to the library for processing.
+		for(var i = 0; i < gameWorld.length; i++){ //Update the gameWorld objects after returning. 
+            gameWorld[i].update(); 
+    	}
 		input.value = "";
         if(gameMode == EXPLORING){
 		    player.clear(); //Make sure the action and toWhom values are null for every 'frame'.
         }
-        hud.innerHTML = "Current Location: " + player.location.name; //Now we have a hud that let's the player keep track of her location! We can also put other info here as well!
+        hud.innerHTML = "Current Location: " + player.location.name + statusMessage + "</p>"; //Now we have a hud that let's the player keep track of her location! We can also put other info here as well!
 	}
     //-->
 </script>
